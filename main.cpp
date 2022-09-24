@@ -190,27 +190,3 @@ void updateHigh(int high){
 
 }
 
-//    rectangle.setOutlineColor(sf::Color::Red);
-//    rectangle.setOutlineThickness(5);
-//
-//    // Create a graphical text to display
-//    sf::Font font;
-//    if (!font.loadFromFile("arial.ttf"))
-//        return EXIT_FAILURE;
-//    sf::Text text("Hello SFML", font, 50);
-//
-//    // Load a music to play
-//    sf::Music music;
-//    if (!music.openFromFile("nice_music.ogg"))
-//        return EXIT_FAILURE;
-//
-//    // Play the music
-//    music.play();
-
-//        // Draw the sprite
-//        window.draw(sprite);
-
-//
-
-//        // Draw the string
-//        window.draw(text);
