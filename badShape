@@ -1,0 +1,139 @@
+//
+// Created by assma on 9/9/22.
+//
+
+#ifndef TETRIS_BADSHAPE_H
+#define TETRIS_BADSHAPE_H
+
+#include "Shape.h"
+
+class badShape: public Shape{
+public:
+    int num;
+    badShape(){
+        ShapeRectangls[0]->setFillColor(sf::Color::Magenta);
+        ShapeRectangls[1]->setFillColor(sf::Color::Magenta);
+        ShapeRectangls[2]->setFillColor(sf::Color::Magenta);
+        ShapeRectangls[3]->setFillColor(sf::Color::Magenta);
+        this->num=rand() % 4 + 1;
+        if(this->num==1){
+            //bad shape 1 (down)
+            ShapeRectangls[0]->setPosition((WIDTH/2)+REC_DIM, 0);
+            ShapeRectangls[1]->setPosition((WIDTH/2), 0);
+            ShapeRectangls[2]->setPosition((WIDTH/2)-REC_DIM, 0);
+            ShapeRectangls[3]->setPosition((WIDTH/2), REC_DIM);
+            findDownerRec();
+            findLefterRec();
+            findRighterRec();
+        }
+        else if(this->num==2){
+            //bad shape 2 (up)
+            ShapeRectangls[0]->setPosition((WIDTH/2)+REC_DIM, REC_DIM);
+            ShapeRectangls[1]->setPosition((WIDTH/2), REC_DIM);
+            ShapeRectangls[2]->setPosition((WIDTH/2)-REC_DIM, REC_DIM);
+            ShapeRectangls[3]->setPosition((WIDTH/2), 0);
+            findDownerRec();
+            findLefterRec();
+            findRighterRec();
+        }
+        else if(this->num==3){
+            //bad shape 3 (standing right)
+            ShapeRectangls[0]->setPosition((WIDTH/2)+REC_DIM, REC_DIM);
+            ShapeRectangls[1]->setPosition((WIDTH/2), REC_DIM);
+            ShapeRectangls[2]->setPosition((WIDTH/2),0 );
+            ShapeRectangls[3]->setPosition((WIDTH/2), 2*REC_DIM);
+            findDownerRec();
+            findLefterRec();
+            findRighterRec();
+        }
+        else if(this->num==4){
+            //bad shape 4 (standing left)
+            ShapeRectangls[0]->setPosition((WIDTH/2)-REC_DIM, REC_DIM);
+            ShapeRectangls[1]->setPosition((WIDTH/2), REC_DIM);
+            ShapeRectangls[2]->setPosition((WIDTH/2),0 );
+            ShapeRectangls[3]->setPosition((WIDTH/2), 2*REC_DIM);
+            findDownerRec();
+            findLefterRec();
+            findRighterRec();
+        }
+    }
+    void Rotate();
+private:
+    void setPosition1();
+    void setPosition2();
+    void setPosition3();
+    void setPosition4();
+};
+
+void badShape::Rotate() {
+    if(this->num==1){
+        badShape:: setPosition2();
+    }
+    else if(this->num==2){
+        badShape:: setPosition3();
+    }
+    else if(this->num==3){
+        badShape:: setPosition4();
+    }
+    else if(this->num==4){
+        badShape:: setPosition1();
+    }
+}
+
+//move from 4 to 1
+void badShape:: setPosition1(){
+    if(ShapeRectangls[0]->getPosition().x+2*REC_DIM<=WIDTH-REC_DIM && ShapeRectangls[2]->getPosition().x-REC_DIM>=0){
+        this->num=1;
+        ShapeRectangls[0]->setPosition( ShapeRectangls[0]->getPosition().x+2*REC_DIM,  ShapeRectangls[0]->getPosition().y-REC_DIM);
+        ShapeRectangls[1]->setPosition(ShapeRectangls[1]->getPosition().x, ShapeRectangls[1]->getPosition().y-REC_DIM);
+        ShapeRectangls[2]->setPosition(ShapeRectangls[2]->getPosition().x-REC_DIM, ShapeRectangls[2]->getPosition().y);
+        ShapeRectangls[3]->setPosition(ShapeRectangls[3]->getPosition().x, ShapeRectangls[3]->getPosition().y-REC_DIM);
+        findDownerRec();
+        findLefterRec();
+        findRighterRec();
+    }
+}
+
+//move from 1 to 2
+void badShape:: setPosition2(){
+    this->num=2;
+    ShapeRectangls[0]->setPosition( ShapeRectangls[0]->getPosition().x,  ShapeRectangls[0]->getPosition().y+REC_DIM);
+    ShapeRectangls[1]->setPosition(ShapeRectangls[1]->getPosition().x, ShapeRectangls[1]->getPosition().y+REC_DIM);
+    ShapeRectangls[2]->setPosition(ShapeRectangls[2]->getPosition().x, ShapeRectangls[2]->getPosition().y+REC_DIM);
+    ShapeRectangls[3]->setPosition(ShapeRectangls[3]->getPosition().x, ShapeRectangls[3]->getPosition().y-REC_DIM);
+    findDownerRec();
+    findLefterRec();
+    findRighterRec();
+}
+
+//move from 2 to 3
+void badShape:: setPosition3(){
+    if(ShapeRectangls[2]->getPosition().x+REC_DIM<=WIDTH+REC_DIM){
+        this->num=3;
+        ShapeRectangls[0]->setPosition( ShapeRectangls[0]->getPosition().x,  ShapeRectangls[0]->getPosition().y);
+        ShapeRectangls[1]->setPosition(ShapeRectangls[1]->getPosition().x, ShapeRectangls[1]->getPosition().y);
+        ShapeRectangls[2]->setPosition(ShapeRectangls[2]->getPosition().x+REC_DIM, ShapeRectangls[2]->getPosition().y-REC_DIM);
+        ShapeRectangls[3]->setPosition(ShapeRectangls[3]->getPosition().x, ShapeRectangls[3]->getPosition().y+2*REC_DIM);
+        findDownerRec();
+        findLefterRec();
+        findRighterRec();
+    }
+}
+
+//move from 3 to 4
+void badShape:: setPosition4(){
+    if(ShapeRectangls[0]->getPosition().x-2*REC_DIM>=0){
+        this->num=4;
+        ShapeRectangls[0]->setPosition( ShapeRectangls[0]->getPosition().x-2*REC_DIM,  ShapeRectangls[0]->getPosition().y);
+        ShapeRectangls[1]->setPosition(ShapeRectangls[1]->getPosition().x, ShapeRectangls[1]->getPosition().y);
+        ShapeRectangls[2]->setPosition(ShapeRectangls[2]->getPosition().x, ShapeRectangls[2]->getPosition().y);
+        ShapeRectangls[3]->setPosition(ShapeRectangls[3]->getPosition().x, ShapeRectangls[3]->getPosition().y);
+        findDownerRec();
+        findLefterRec();
+        findRighterRec();
+    }
+}
+
+
+
+#endif //TETRIS_BADSHAPE_H
