@@ -6,33 +6,39 @@
 #include "badShape.h"
 
 Shape *shapeArray[100];
+
 int shapesCounter=0;
 typedef struct{
     int x;
     int y;
 }HigherPlate;
+
 HigherPlate plate[WIDTH/REC_DIM];
 sf::RectangleShape** plates[HEIGHT/REC_DIM][WIDTH/REC_DIM];
 void updatePlate();
-void updateHigh(int high);
+void updateHeight(int height);
 int main() {
-    for(int i=0;i<HEIGHT/REC_DIM;i++)
+    for(int i=0;i<HEIGHT/REC_DIM;i++){
         for(int j=0;j<WIDTH/REC_DIM;j++){
             plates[i][j]= nullptr;
         }
+    }
+
 
     // Create the main window
     sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "NEW GAME");
-    int random=rand()%100;
-    if(random%3==0){
+    int random=rand()%3 +1;
+
+    if(random==1){
         shapeArray[shapesCounter]=new Line();
     }
-    else if(random%3==1){
+    else if(random==2){
         shapeArray[shapesCounter]=new Square();
     }
     else{
         shapeArray[shapesCounter]=new badShape();
     }
+
     float timer=0;
     float delay=0.3;
     sf::Clock clock1;
@@ -77,14 +83,13 @@ int main() {
                             *plates[i][j]= nullptr;
                             plates[i][j]= nullptr;
                         }
-                        updateHigh(i*REC_DIM);
+                        updateHeight(i*REC_DIM);
                         updatePlate();
                         window.display();
                     }
                 }
             }
             updatePlate();
-
             window.display();
             shapesCounter++;
             random=rand()%100 ;
@@ -140,7 +145,7 @@ int main() {
 
             //faster
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
-
+                timer++;
             }
         }
         // Update the window
@@ -169,18 +174,18 @@ void updatePlate(){
     }
 
 }
-void updateHigh(int high){
+void updateHeight(int height){
     for (int i = 0; i <= shapesCounter; i++) {
         for (int j = 0; j <4; j++) {
             if(shapeArray[i]->ShapeRectangls[j]!= nullptr){
-                if(shapeArray[i]->ShapeRectangls[j]->getPosition().y<high){
+                if(shapeArray[i]->ShapeRectangls[j]->getPosition().y<height){
                     shapeArray[i]->ShapeRectangls[j]->setPosition(shapeArray[i]->ShapeRectangls[j]->getPosition().x,shapeArray[i]->ShapeRectangls[j]->getPosition().y+REC_DIM);
                 }
             }
         }
     }
     for(int i=0;i<WIDTH/REC_DIM;i++) {
-        for (int j = high/REC_DIM; j >0; j--) {
+        for (int j = height/REC_DIM; j >0; j--) {
             plates[j][i]=plates[j-1][i];
         }
     }
@@ -189,4 +194,3 @@ void updateHigh(int high){
     }
 
 }
-
